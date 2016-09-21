@@ -1,0 +1,12 @@
+{
+    "name": "jsonFormValidation",
+    "version": "1.0.0",
+    "authors": [
+		"jr.beretta <jean-robert.beretta@gmail.com>"
+    ],
+    "license": "MIT",
+
+	"main": [
+		"dist/jsonFormValidation.js"
+	]
+}

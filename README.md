@@ -1,9 +1,9 @@
 Form Validator
 ===================
 
-This is an extremely light weight jquery form validation class.
+This is an extremely light weight javascript form validation class.
 
-a js/jquery form validator with customizable with json rules
+a js form validator with customizable with json rules
 
 This plugin make js form validation really easy, and it's fully customizable with json.
 
@@ -20,7 +20,7 @@ and finally tell the validator when to run validation.
 <script>
 var options = {};
 var rules = {};
-var inputs = $('input, select');
+var inputs = document.querySelectorAll('input, select')
  if(ValidateForm(rules, inputs, options)){
     //do action
  }
@@ -98,7 +98,7 @@ Default RulesName are :
 -morethan
 -lessthanequal
 -morethanequal
--regexp
+-regex
 
 "value" contains value to compare e.g:
 ```javascript
@@ -174,36 +174,41 @@ After all that configuration, it's finally time to tell the validator when to ru
 The most common case is to run validation when a form submits.
 
 ```javascript
-//jquery example
 var rules = ...;
 var options = ...;
-$('#my_form').on('submit',function() {
+var inputs = document.querySelectorAll('input, select');
+var specInputs = document.querySelectorAll('input[name=login], input[name=password]');
+
+document.getElementById('my_form')addEventListener.('submit',function() {
   //this will run all the validation rules
-  return ValidateForm(rules, $(this).find('input, select'), options);
+  return ValidateForm(rules, inputs, options);
   
   //this will only run the selected field rules
-  return ValidateForm(rules, $(this).find('input[name=login], input[name=password]'), options);
+
+  return ValidateForm(rules, specInputs, options);
 });
 ```
 
 Another common use case is to validate an input when it loses focus.
 
 ```javascript
-//jquery example
-$('#my_form').on('blur','input,select,textarea',function() {
-  var optionsLive = options;
-  optionsLive.skipRequired = true;
-  ValidateForm(rules, $(this), optionsLive);
-});
+document.getElementById('my_form')addEventListener('blur',function(ev) {
+  if(ev.target.tagName.toLowerCase() == "input" || ev.target.tagName.toLowerCase() == "select" || ev.target.tagName.toLowerCase() == "textarea"){
+    var optionsLive = options;
+    optionsLive.skipRequired = true;
+    ValidateForm(rules, [ev.target], optionsLive);
+  }
+}, true);
 ```
 
 It is also common to remove an error as soon as a field gains focus again.
 
 ```javascript
-//jquery example
-$('#my_form').on('focus','input,select,textarea',function() {
-  ValidateForm.removeErrorMessage($(this).parents, options.errorClass);
-});
+document.getElementById('my_form')addEventListener('blur',function(ev) {
+  if(ev.target.tagName.toLowerCase() == "input" || ev.target.tagName.toLowerCase() == "select" || ev.target.tagName.toLowerCase() == "textarea"){
+     ValidateForm.removeErrorMessage(ev.target.parentNode, options.errorClass);
+  }
+}, true);
 ```
 To clear multiple errors at once:
 
@@ -237,20 +242,27 @@ And you can overwritten the existing function
 
 ```javascript
 //if you have a custom error message treatment
-
 ValidateForm.addErrorMessage = function(target, message, errorClass){
-    target.addClass(errorClass);
+    target.className += " " + errorClass;
     // here you just want a new class in your container, no error message
+    
 };
+
 
 //don't forget the remove function 
 
 
 ValidateForm.removeErrorMessage = function(target, errorClass){
-    target.removeClass(errorClass)
-};
+        removeClass(target, errorClass);
+        //no more treatment, there is no message
+}
+
 ValidateForm.removeAllErrorMessages = function(errorClass){
-    $('.' + errorClass).removeClass(errorClass)
+    var errors = document.querySelectorAll('.' + errorClass)
+    for( var i =0; i < errors.length; i++){
+         ValidateForm.removeErrorMessage(errors[i], errorClass);
+    }
+};
 
 ```
 the first options is always the one given by the user and the second is the one stored in the rules
