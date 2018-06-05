@@ -38,6 +38,17 @@ module.exports = function(grunt) {
 
              },
         },
+        babel: {
+            options: {
+                sourceMap: true,
+                presets: ['babel/preset-env']
+            },
+            dist: {
+                files: {
+                    'dist/jsonFormValidator.js': 'dist/jsonFormValidator.js'
+                }
+            }
+        }
     });
 
     
@@ -49,6 +60,7 @@ module.exports = function(grunt) {
     grunt.registerTask('build', [
         'clean:dist',
         'concat:dist',
+        'babel:dist',
         'uglify:dist',
     ]);
 

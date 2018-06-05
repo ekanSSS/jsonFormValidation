@@ -59,7 +59,7 @@ describe('Json Form Validator basics', function() {
 		}
 
 		//should be false
-		expect(ValidateForm(rules)).toBe(false);
+		expect(ValidateForm.core(rules)).toBe(false);
 
 		//error class should be present
 		expect(form.childNodes[0].className).toBe(" has-error");
