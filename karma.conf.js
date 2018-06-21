@@ -31,7 +31,7 @@ module.exports = function ( config ) {
 		// test results reporter to use
 		// possible values: 'dots', 'progress'
 		// available reporters: https://npmjs.org/browse/keyword/karma-reporter
-		reporters: [ 'logcapture', 'clear-screen', 'mocha', 'coverage' ],
+		reporters: [ 'clear-screen', 'mocha', 'coverage' ],
 
 		preprocessors: {
 			// source files, that you wanna generate coverage for
@@ -48,7 +48,7 @@ module.exports = function ( config ) {
 			]
 		},
 
-		captureConsole: true,
+		browserConsoleLogOptions: {level: "debug", format: "%b %T: %m", terminal: true},
 		client: {
 			captureConsole: true
 		},
@@ -68,7 +68,6 @@ module.exports = function ( config ) {
 		autoWatch: true,
 
 		// start these browsers
-		// available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
 		browsers: ['ChromeHeadless'],
 
 		// set this to true when your want do to a single run, usefull to CI

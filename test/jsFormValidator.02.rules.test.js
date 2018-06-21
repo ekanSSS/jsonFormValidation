@@ -31,7 +31,7 @@ describe('Json Form Validator Rules Tests', function() {
 	});
 
 	it('Test required', function() {
-		var form = document.querySelectorAll('form')[0];
+		var form = document.querySelector('form');
 		var rules = {
 			test1 :{ 
 				required : {
@@ -42,16 +42,16 @@ describe('Json Form Validator Rules Tests', function() {
 		}
 
 		//should be false
-		expect(ValidateForm(rules)).toBe(false);
+		expect(ValidateForm.validate(rules)).toBe(false);
 
 		form.querySelector('input[name=test1]').value = "test";
 
 		//now validation should be true
-		expect(ValidateForm(rules)).toBe(true);
+		expect(ValidateForm.validate(rules)).toBe(true);
 	});
 	
 	it('Test regex', function() {
-		var form = document.querySelectorAll('form')[0];
+		var form = document.querySelector('form');
 		var input = form.querySelector('input[name=test1]');
 		var rules = {
 			test1 :{ 
@@ -64,21 +64,21 @@ describe('Json Form Validator Rules Tests', function() {
 		input.value = "testfalse";
 
 		//should be false
-		expect(ValidateForm(rules)).toBe(false);
+		expect(ValidateForm.validate(rules)).toBe(false);
 
 		input.value = "testf54alse5";
 
 		//should be false
-		expect(ValidateForm(rules)).toBe(false);
+		expect(ValidateForm.validate(rules)).toBe(false);
 
 		input.value = "9";
 
 		//now validation should be true
-		expect(ValidateForm(rules)).toBe(true);
+		expect(ValidateForm.validate(rules)).toBe(true);
 	});
 
 	it('Test equals', function() {
-		var form = document.querySelectorAll('form')[0];
+		var form = document.querySelector('form');
 		var rules = {
 			test1 :{ 
 				equals : {
@@ -89,16 +89,16 @@ describe('Json Form Validator Rules Tests', function() {
 		}
 
 		//should be false
-		expect(ValidateForm(rules)).toBe(false);
+		expect(ValidateForm.validate(rules)).toBe(false);
 
 		form.querySelector('input[name=test1]').value = "2";
 
 		//now validation should be true
-		expect(ValidateForm(rules)).toBe(true);
+		expect(ValidateForm.validate(rules)).toBe(true);
 	});
 
 	it('Test notequals', function() {
-		var form = document.querySelectorAll('form')[0];
+		var form = document.querySelector('form');
 		var rules = {
 			test1 :{ 
 				notequals : {
@@ -109,16 +109,16 @@ describe('Json Form Validator Rules Tests', function() {
 		}
 
 		//should be true
-		expect(ValidateForm(rules)).toBe(true);
+		expect(ValidateForm.validate(rules)).toBe(true);
 
 		form.querySelector('input[name=test1]').value = "2";
 
 		//now validation should be false
-		expect(ValidateForm(rules)).toBe(false);
+		expect(ValidateForm.validate(rules)).toBe(false);
 	});
 
 	it('Test min', function() {
-		var form = document.querySelectorAll('form')[0];
+		var form = document.querySelector('form');
 		var rules = {
 			test1 :{ 
 				min : {
@@ -129,21 +129,21 @@ describe('Json Form Validator Rules Tests', function() {
 		}
 		form.querySelector('input[name=test1]').value = "1";
 		//should be false
-		expect(ValidateForm(rules)).toBe(false);
+		expect(ValidateForm.validate(rules)).toBe(false);
 
 		form.querySelector('input[name=test1]').value = "2";
 
 		//should be false
-		expect(ValidateForm(rules)).toBe(false);
+		expect(ValidateForm.validate(rules)).toBe(false);
 
 		form.querySelector('input[name=test1]').value = "3";
 
 		//now validation should be true
-		expect(ValidateForm(rules)).toBe(true);
+		expect(ValidateForm.validate(rules)).toBe(true);
 	});
 
 	it('Test max', function() {
-		var form = document.querySelectorAll('form')[0];
+		var form = document.querySelector('form');
 		var rules = {
 			test1 :{ 
 				max : {
@@ -154,25 +154,25 @@ describe('Json Form Validator Rules Tests', function() {
 		}
 		form.querySelector('input[name=test1]').value = "1";
 		//should be true
-		expect(ValidateForm(rules)).toBe(true);
+		expect(ValidateForm.validate(rules)).toBe(true);
 
 		form.querySelector('input[name=test1]').value = "2";
 
 		//should be false
-		expect(ValidateForm(rules)).toBe(false);
+		expect(ValidateForm.validate(rules)).toBe(false);
 
 		form.querySelector('input[name=test1]').value = "3";
 
 		//now validation should be false
-		expect(ValidateForm(rules)).toBe(false);
+		expect(ValidateForm.validate(rules)).toBe(false);
 	});
 
 	it('Test morethan', function() {
-		var form = document.querySelectorAll('form')[0];
+		var form = document.querySelector('form');
 		var rules = {
 			test1 :{ 
 				morethan : {
-					value: "test2",
+					field: "test2",
 					message: "this is a test"
 				}
 			}
@@ -180,25 +180,25 @@ describe('Json Form Validator Rules Tests', function() {
 		form.querySelector('select[name=test2]').value = 2;
 		form.querySelector('input[name=test1]').value = "1";
 		//should be false
-		expect(ValidateForm(rules)).toBe(false);
+		expect(ValidateForm.validate(rules)).toBe(false);
 
 		form.querySelector('input[name=test1]').value = "2";
 
 		//should be false
-		expect(ValidateForm(rules)).toBe(false);
+		expect(ValidateForm.validate(rules)).toBe(false);
 
 		form.querySelector('input[name=test1]').value = "3";
 
 		//now validation should be true
-		expect(ValidateForm(rules)).toBe(true);
+		expect(ValidateForm.validate(rules)).toBe(true);
 	});
 
 	it('Test morethanequals', function() {
-		var form = document.querySelectorAll('form')[0];
+		var form = document.querySelector('form');
 		var rules = {
 			test1 :{ 
 				morethanequals : {
-					value: "test2",
+					field: "test2",
 					message: "this is a test"
 				}
 			}
@@ -206,25 +206,25 @@ describe('Json Form Validator Rules Tests', function() {
 		form.querySelector('select[name=test2]').value = 2;
 		form.querySelector('input[name=test1]').value = "1";
 		//should be false
-		expect(ValidateForm(rules)).toBe(false);
+		expect(ValidateForm.validate(rules)).toBe(false);
 
 		form.querySelector('input[name=test1]').value = "2";
 
 		//should be true
-		expect(ValidateForm(rules)).toBe(true);
+		expect(ValidateForm.validate(rules)).toBe(true);
 
 		form.querySelector('input[name=test1]').value = "3";
 
 		//now validation should be true
-		expect(ValidateForm(rules)).toBe(true);
+		expect(ValidateForm.validate(rules)).toBe(true);
 	});
 
 	it('Test lessthan', function() {
-		var form = document.querySelectorAll('form')[0];
+		var form = document.querySelector('form');
 		var rules = {
 			test1 :{ 
 				lessthan : {
-					value: "test2",
+					field: "test2",
 					message: "this is a test"
 				}
 			}
@@ -232,25 +232,25 @@ describe('Json Form Validator Rules Tests', function() {
 		form.querySelector('select[name=test2]').value = 2;
 		form.querySelector('input[name=test1]').value = "1";
 		
-		expect(ValidateForm(rules)).toBe(true);
+		expect(ValidateForm.validate(rules)).toBe(true);
 
 		form.querySelector('input[name=test1]').value = "2";
 
 		
-		expect(ValidateForm(rules)).toBe(false);
+		expect(ValidateForm.validate(rules)).toBe(false);
 
 		form.querySelector('input[name=test1]').value = "3";
 
 		
-		expect(ValidateForm(rules)).toBe(false);
+		expect(ValidateForm.validate(rules)).toBe(false);
 	});
 
 	it('Test lessthanequals', function() {
-		var form = document.querySelectorAll('form')[0];
+		var form = document.querySelector('form');
 		var rules = {
 			test1 :{ 
 				lessthanequals : {
-					value: "test2",
+					field: "test2",
 					message: "this is a test"
 				}
 			}
@@ -258,21 +258,21 @@ describe('Json Form Validator Rules Tests', function() {
 		form.querySelector('select[name=test2]').value = 2;
 		form.querySelector('input[name=test1]').value = "1";
 		
-		expect(ValidateForm(rules)).toBe(true);
+		expect(ValidateForm.validate(rules)).toBe(true);
 
 		form.querySelector('input[name=test1]').value = "2";
 
 		
-		expect(ValidateForm(rules)).toBe(true);
+		expect(ValidateForm.validate(rules)).toBe(true);
 
 		form.querySelector('input[name=test1]').value = "3";
 
 		
-		expect(ValidateForm(rules)).toBe(false);
+		expect(ValidateForm.validate(rules)).toBe(false);
 	});
 
 	it('Test target', function() {
-		var form = document.querySelectorAll('form')[0];
+		var form = document.querySelector('form');
 		var rules = {
 			test3 :{ 
 				target: ".radio-container",
@@ -283,7 +283,7 @@ describe('Json Form Validator Rules Tests', function() {
 			}
 		}
 
-		ValidateForm(rules);		
+		ValidateForm.validate(rules);		
 
 		//now radio container should have error classe
 		expect(form.querySelector(".radio-container").className.indexOf("has-error")).not.toBe(-1);

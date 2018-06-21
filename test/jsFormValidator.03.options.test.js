@@ -43,34 +43,34 @@ describe('Json Form Validator Options Tests', function() {
 		}
 
 		//test with placeholder value (considered as "")
-		expect(ValidateForm(rules)).toBe(false);
+		expect(ValidateForm.validate(rules)).toBe(false);
 
 		//test with another placeholder select configured
 		form.querySelector('option[value=placeholder]').value = 'testmodif';
-		expect(ValidateForm(rules, null, {selectPlaceholder: "testmodif"})).toBe(false);
+		expect(ValidateForm.validate(rules, null, {selectPlaceholder: "testmodif"})).toBe(false);
 
 
 		//test for validate a select
 		form.querySelector('select[name=test2]').value=2;
-		expect(ValidateForm(rules)).toBe(true);
+		expect(ValidateForm.validate(rules)).toBe(true);
 	});
 
-	it('Options skipRequired test', function() {
-		var form = document.querySelectorAll('form')[0];
-		var options = {skipRequired: true};
+	it('Options skipEmpty test', function() {
+		var form = document.querySelector('form');
+		var options = {skipEmpty: true};
 		var rules = {
 			test1 :{ 
 				required : {
 					value: true,
-					message: "this is a test"
+					message: "this is a test1"
 				},
 				equals: {
 					value: "2",
-					message: "this is a test"
+					message: "this is a test2"
 				},
 				notequals: {
 					value: 3,
-					message: "this is a test"
+					message: "this is a test3"
 				},
 				regex: {
 					value: /^[a-z]*$/,
@@ -80,20 +80,20 @@ describe('Json Form Validator Options Tests', function() {
 		}
 
 		//test with no value (should be false without skip required)
-		expect(ValidateForm(rules)).toBe(false);
+		expect(ValidateForm.validate(rules)).toBe(false);
 
 		//test with no value (should be true with skip required)
-		expect(ValidateForm(rules, null, options)).toBe(true);
+		expect(ValidateForm.validate(rules, null, options)).toBe(true);
 
 		form.querySelector('input[name=test1]').value = '2';
 
 		//test with value, regex shoumd be trigger
-		expect(ValidateForm(rules, null, options)).toBe(false);
+		expect(ValidateForm.validate(rules, null, options)).toBe(false);
 		expect(form.querySelector('.error-message').innerHTML).toBe("regex");
 	});
 
 	it('Options error test', function() {
-		var form = document.querySelectorAll('form')[0];
+		var form = document.querySelector('form');
 		var options = {error: false};
 		var rules = {
 			test1 :{ 
@@ -105,24 +105,24 @@ describe('Json Form Validator Options Tests', function() {
 		}
 
 		//test should be false and error message should be displayed
-		expect(ValidateForm(rules)).toBe(false);
+		expect(ValidateForm.validate(rules)).toBe(false);
 		expect(form.querySelectorAll('.error-message').length).toBe(1);
 
 		//validation should be false and existing error message should not disappear
-		expect(ValidateForm(rules, null, options)).toBe(false);
+		expect(ValidateForm.validate(rules, null, options)).toBe(false);
 		expect(form.querySelectorAll('.error-message').length).toBe(1);
 
-		ValidateForm.removeAllErrorMessages('has-error');
+		ValidateForm.removeErrors('has-error');
 
 		//validation should be false and no error message should appear
-		expect(ValidateForm(rules, null, options)).toBe(false);
+		expect(ValidateForm.validate(rules, null, options)).toBe(false);
 		expect(form.querySelectorAll('.error-message').length).toBe(0);
 
 		
 	});
 
 	it('Options returnInput test', function() {
-		var form = document.querySelectorAll('form')[0];
+		var form = document.querySelector('form');
 		var options = {returnInput: true};
 		var rules = {
 			test1 :{ 
@@ -134,12 +134,12 @@ describe('Json Form Validator Options Tests', function() {
 		}
 
 		//return only valid input with rules
-		expect(ValidateForm(rules, null, options).length).toBe(0);
+		expect(ValidateForm.getValidInputs(rules, null, options).length).toBe(0);
 
 		form.querySelector('input[name=test1]').value = '2';
 
 		//return only valid input with rules
-		var inputValid = ValidateForm(rules, null, options);
+		var inputValid = ValidateForm.getValidInputs(rules, null, options);
 		
 		expect(inputValid.test1).toBe('2');
 		expect(inputValid.length).toBe(1);
@@ -150,7 +150,7 @@ describe('Json Form Validator Options Tests', function() {
 	});
 
 	it('Options errorClass test', function() {
-		var form = document.querySelectorAll('form')[0];
+		var form = document.querySelector('form');
 		var options = {errorClass: 'testClass'};
 		var rules = {
 			test1 :{ 
@@ -160,9 +160,9 @@ describe('Json Form Validator Options Tests', function() {
 				}
 			}
 		}
-
+		
 		//error class should be changed
-		ValidateForm(rules, null, options)
+		ValidateForm.validate(rules, null, options)
 		expect(form.childNodes[0].className.indexOf(options.errorClass)).not.toBe(-1);
 
 

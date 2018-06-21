@@ -31,7 +31,7 @@ gulp.task('clean', () =>
 
 // Tâche "watch" = je surveille *less
 gulp.task('watch', function () {
-  gulp.watch(source + '*.js', ['js']);
+  gulp.watch(source + '/*.js', ['js']);
 });
 
 // Tâche "build"

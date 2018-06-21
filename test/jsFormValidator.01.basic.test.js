@@ -48,7 +48,7 @@ describe('Json Form Validator basics', function() {
 	});
 
 	it('Error messages test', function() {
-		var form = document.querySelectorAll('form')[0]
+		var form = document.querySelector('form');
 		var rules = {
 			test1 :{ 
 				required : {
@@ -59,7 +59,7 @@ describe('Json Form Validator basics', function() {
 		}
 
 		//should be false
-		expect(ValidateForm.core(rules)).toBe(false);
+		expect(ValidateForm.validate(rules)).toBe(false);
 
 		//error class should be present
 		expect(form.childNodes[0].className).toBe(" has-error");
@@ -75,7 +75,7 @@ describe('Json Form Validator basics', function() {
 		form.querySelector('input[name=test1]').value = "test";
 
 		//now validation should be true
-		expect(ValidateForm(rules)).toBe(true);
+		expect(ValidateForm.validate(rules)).toBe(true);
 
 		error = form.querySelector('.error-message');
 
@@ -87,7 +87,7 @@ describe('Json Form Validator basics', function() {
 	});
 
 	it('select validation test', function() {
-		var form = document.querySelectorAll('form')[0]
+		var form = document.querySelector('form');
 		var rules = {
 			test2 :{ 
 				required : {
@@ -98,15 +98,15 @@ describe('Json Form Validator basics', function() {
 		}
 
 		//test with placeholder value (considered as "")
-		expect(ValidateForm(rules)).toBe(false);
+		expect(ValidateForm.validate(rules)).toBe(false);
 
 		//test for validate a select
 		form.querySelector('select[name=test2]').value=2;
-		expect(ValidateForm(rules)).toBe(true);
+		expect(ValidateForm.validate(rules)).toBe(true);
 	});
 
 	it('validation of radio button with same name', function() {
-		var form = document.querySelectorAll('form')[0]
+		var form = document.querySelector('form');
 		var rules = {
 			test3 :{ 
 				equals : {
@@ -118,16 +118,16 @@ describe('Json Form Validator basics', function() {
 
 		var radio = form.querySelectorAll('input[type=radio]');
 
-		expect(ValidateForm(rules, radio)).toBe(false);
+		expect(ValidateForm.validate(rules, radio)).toBe(false);
 
 
 		//test for validate a radio value 
 		radio[1].checked = true;
-		expect(ValidateForm(rules, radio)).toBe(true);
+		expect(ValidateForm.validate(rules, radio)).toBe(true);
 	});
 
 	it('remove all error message',function() {
-		var form = document.querySelectorAll('form')[0]
+		var form = document.querySelector('form');
 		var rules = {
 			test1 :{ 
 				required : {
@@ -138,7 +138,7 @@ describe('Json Form Validator basics', function() {
 		}
 
 		//should be false
-		expect(ValidateForm(rules)).toBe(false);
+		expect(ValidateForm.validate(rules)).toBe(false);
 
 		//error class should be present
 		expect(form.childNodes[0].className).toBe(" has-error");
@@ -147,15 +147,15 @@ describe('Json Form Validator basics', function() {
 
 		expect(error.length).toBe(1);
 
-		ValidateForm.removeAllErrorMessages('has-error');
+		ValidateForm.removeErrors('has-error');
 
 		error = form.querySelectorAll('.error-message');
 
 		expect(error.length).toBe(0);
 	});
 
-	it('validation with missing value in ruels', function() {
-		var form = document.querySelectorAll('form')[0]
+	it('validation with missing value in rules', function() {
+		var form = document.querySelector('form');
 		var rules = {
 			test1 :{ 
 				equals : {
@@ -165,12 +165,12 @@ describe('Json Form Validator basics', function() {
 		}
 
 		//missing value is considered as "" so it's true
-		expect(ValidateForm(rules)).toBe(true);
+		expect(ValidateForm.validate(rules)).toBe(true);
 
 
 		//with real value
 		form.querySelector('input[name=test1]').value = 2;
-		expect(ValidateForm(rules)).toBe(false);
+		expect(ValidateForm.validate(rules)).toBe(false);
 	});
 
 });

@@ -7,7 +7,7 @@ a js form validator with customizable with json rules
 
 This plugin make js form validation really easy, and it's fully customizable with json.
 
-Check out example.html for a fully working demonstration.
+Check out sample/example.html for a fully working demonstration.
 
 Configuration
 ===================
@@ -21,7 +21,7 @@ and finally tell the validator when to run validation.
 var options = {};
 var rules = {};
 var inputs = document.querySelectorAll('input, select')
- if(ValidateForm(rules, inputs, options)){
+ if(ValidateForm.validate(rules, inputs, options)){
     //do action
  }
 }
@@ -37,7 +37,7 @@ Do you want to display error message ? You can choose ! (default = true)
 
 ```javascript
 options.error = false;
-ValidateForm(rules, inputs, options);
+ValidateForm.validate(rules, inputs, options);
 ```
 
 skipRequired
@@ -46,8 +46,8 @@ When you do live validation on some field you can skip rules when the field is e
 
 ```javascript
 
-options.skipRequired = true;
-ValidateForm(rules, inputs, options);
+options.skipEmpty = true;
+ValidateForm.validate(rules, inputs, options);
 };
 ```
 
@@ -57,8 +57,7 @@ You may want to get all valid field in your form, this options is for you, inste
 
 ```javascript
 
-options.returnInput = true;
-valid field = ValidateForm(rules, inputs, options);
+let validFields = ValidateForm.getValidInput(rules, inputs, options);
 };
 ```
 selectPlaceholder
@@ -68,7 +67,7 @@ Select often have a placeholder option so we want to exclude it from validation 
 ```javascript
 
 options.selectPlaceholder = "anothervalue";
-valid field = ValidateForm(rules, inputs, options);
+valid field = ValidateForm.validate(rules, inputs, options);
 };
 ```
 
@@ -136,17 +135,18 @@ rules = {
     }
   }
   fieldwithdependanties:{
-    condition:{
-      field: "otherFieldName",
-      operator: "equals",
-      value: 4,
-      validation:{
+    conditions:[{
+      equals:{
+        field: "otherFieldName",
+        value: 4,
+      }
+      rules:{
         required: {
           value: true,
           message: "this field is require for otherfield equals 4"
         }
       }
-    }
+    }]
   }
 };
 ```
@@ -181,11 +181,11 @@ var specInputs = document.querySelectorAll('input[name=login], input[name=passwo
 
 document.getElementById('my_form')addEventListener.('submit',function() {
   //this will run all the validation rules
-  return ValidateForm(rules, inputs, options);
+  return ValidateForm.validate(rules, inputs, options);
   
   //this will only run the selected field rules
 
-  return ValidateForm(rules, specInputs, options);
+  return ValidateForm.validate(rules, specInputs, options);
 });
 ```
 
@@ -195,8 +195,8 @@ Another common use case is to validate an input when it loses focus.
 document.getElementById('my_form')addEventListener('blur',function(ev) {
   if(ev.target.tagName.toLowerCase() == "input" || ev.target.tagName.toLowerCase() == "select" || ev.target.tagName.toLowerCase() == "textarea"){
     var optionsLive = options;
-    optionsLive.skipRequired = true;
-    ValidateForm(rules, [ev.target], optionsLive);
+    optionsLive.skipEmpty = true;
+    ValidateForm.validate(rules, [ev.target], optionsLive);
   }
 }, true);
 ```

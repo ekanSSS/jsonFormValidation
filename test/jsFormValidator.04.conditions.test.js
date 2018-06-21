@@ -31,258 +31,258 @@ describe('Json Form Validator Rules Conditions Test', function() {
 	}); 
 
 	it('Test base condition', function() {
-		var form = document.querySelectorAll('form')[0];
+		var form = document.querySelector('form');
 		var rules = {
 			test1 :{
-			 	condition:{
-			 		field: "test2",
-			 		operator: "equals",
-			 		value: "2",
-					validation: {
+			 	conditions:[{
+			 		equals:{
+				 		field: "test2",
+				 		value: "2"
+				 	},
+					rules: {
 						required : {
 							value: true,
 							message: "this is a test"
 						}
 			 		}
-			 	}
-				
+			 	}]
 			}
 		}
 
 		// condition are not meet, so test1 isn't required
-		expect(ValidateForm(rules)).toBe(true);
+		expect(ValidateForm.validate(rules)).toBe(true);
 
 		form.querySelector("select[name=test2]").value = 2
 
 		// condition meet, so test1 is required
-		expect(ValidateForm(rules)).toBe(false);
-
+		expect(ValidateForm.validate(rules)).toBe(false);
 	});
 
 	it('Test condition on radio button', function() {
-		var form = document.querySelectorAll('form')[0];
+		var form = document.querySelector('form');
 		var rules = {
 			test1 :{
-			 	condition:{
-			 		field: "test3",
-			 		operator: "notequals",
-			 		value: "5",
-					validation: {
+			 	conditions:[{
+			 		notequals:{
+				 		field: "test3",
+				 		value: "5"
+				 	},
+					rules: {
 						required : {
 							value: true,
 							message: "this is a test"
 						}
 			 		}
-			 	}
-				
+			 	}]				
 			}
 		}
 
 		// condition are not meet, so test1 isn't required
-		expect(ValidateForm(rules)).toBe(true);
+		expect(ValidateForm.validate(rules)).toBe(true);
 
 		form.querySelector("[name=test3]").value = 2
 
 		// condition meet, so test1 is required
-		expect(ValidateForm(rules)).toBe(false);
+		expect(ValidateForm.validate(rules)).toBe(false);
 
 	});
 
 	it('Test condition on equals', function() {
-		var form = document.querySelectorAll('form')[0];
+		var form = document.querySelector('form');
 		var rules = {
 			test1 :{
-			 	condition:{
-			 		field: "test3",
-			 		operator: "equals",
-			 		value: "2",
-					validation: {
+			 	
+			 	conditions:[{
+			 		equals:{
+				 		field: "test3",
+				 		value: "2"
+				 	},
+					rules: {
 						required : {
 							value: true,
 							message: "this is a test"
 						}
 			 		}
-			 	}
-				
+			 	}]				
 			}
 		}
 
 		// condition are not meet, so test1 isn't required
-		expect(ValidateForm(rules)).toBe(true);
+		expect(ValidateForm.validate(rules)).toBe(true);
 
 		form.querySelector("[name=test3]").value = 2
 
 		// condition meet, so test1 is required
-		expect(ValidateForm(rules)).toBe(false);
+		expect(ValidateForm.validate(rules)).toBe(false);
 
 	});
 
 	it('Test condition on notequals', function() {
-		var form = document.querySelectorAll('form')[0];
+		var form = document.querySelector('form');
 		var rules = {
 			test1 :{
-			 	condition:{
-			 		field: "test3",
-			 		operator: "notequals",
-			 		value: "5",
-					validation: {
+			 	conditions:[{
+			 		notequals:{
+				 		field: "test3",
+				 		value: "5"
+				 	},
+					rules: {
 						required : {
 							value: true,
 							message: "this is a test"
 						}
 			 		}
-			 	}
-				
+			 	}]				
 			}
 		}
 
 		// condition are not meet, so test1 isn't required
-		expect(ValidateForm(rules)).toBe(true);
+		expect(ValidateForm.validate(rules)).toBe(true);
 
 		form.querySelector("[name=test3]").value = 2
 
 		// condition meet, so test1 is required
-		expect(ValidateForm(rules)).toBe(false);
+		expect(ValidateForm.validate(rules)).toBe(false);
 
 	});
 
 	it('Test condition on lessthan', function() {
-		var form = document.querySelectorAll('form')[0];
+		var form = document.querySelector('form');
 		var rules = {
 			test1 :{
-			 	condition:{
-			 		field: "test3",
-			 		operator: "lessthan",
-			 		value: "2",
-					validation: {
+			 	conditions:[{
+			 		lessthan:{
+				 		field: "test3",
+				 		value: "2"
+				 	},
+					rules: {
 						required : {
 							value: true,
 							message: "this is a test"
 						}
 			 		}
-			 	}
-				
+			 	}]				
 			}
 		}
 
 		// condition are not meet, so test1 isn't required
-		expect(ValidateForm(rules)).toBe(true);
+		expect(ValidateForm.validate(rules)).toBe(true);
 
 		form.querySelector("[name=test3]").value = 2
 
 		// condition are not meet, so test1 isn't required
-		expect(ValidateForm(rules)).toBe(true);
+		expect(ValidateForm.validate(rules)).toBe(true);
 
 		form.querySelector("[name=test3]").value = 1
 
 		// condition meet, so test1 is required
-		expect(ValidateForm(rules)).toBe(false);
+		expect(ValidateForm.validate(rules)).toBe(false);
 
 	});
 
 	it('Test condition on morethan', function() {
-		var form = document.querySelectorAll('form')[0];
+		var form = document.querySelector('form');
 		var rules = {
 			test1 :{
-			 	condition:{
-			 		field: "test3",
-			 		operator: "morethan",
-			 		value: "2",
-					validation: {
+			 	conditions:[{
+			 		morethan:{
+				 		field: "test3",
+				 		value: "2"
+				 	},
+					rules: {
 						required : {
 							value: true,
 							message: "this is a test"
 						}
 			 		}
-			 	}
-				
+			 	}]
 			}
 		}
 
 		form.querySelector("[name=test3]").value = 1
 
 		// condition are not meet, so test1 isn't required
-		expect(ValidateForm(rules)).toBe(true);
+		expect(ValidateForm.validate(rules)).toBe(true);
 
 		form.querySelector("[name=test3]").value = 2
 
 		// condition are not meet, so test1 isn't required
-		expect(ValidateForm(rules)).toBe(true);
+		expect(ValidateForm.validate(rules)).toBe(true);
 
 		form.querySelector("[name=test3]").value = 5
 
 		// condition meet, so test1 is required
-		expect(ValidateForm(rules)).toBe(false);
+		expect(ValidateForm.validate(rules)).toBe(false);
 
 	});
 
-	it('Test condition on lessthanequal', function() {
-		var form = document.querySelectorAll('form')[0];
+	it('Test condition on lessthanequals', function() {
+		var form = document.querySelector('form');
 		var rules = {
 			test1 :{
-			 	condition:{
-			 		field: "test3",
-			 		operator: "lessthanequal",
-			 		value: "2",
-					validation: {
+			 	conditions:[{
+			 		lessthanequals:{
+				 		field: "test3",
+				 		value: "2"
+				 	},
+					rules: {
 						required : {
 							value: true,
 							message: "this is a test"
 						}
 			 		}
-			 	}
-				
+			 	}]
 			}
 		}
 
 		// condition are not meet, so test1 isn't required
-		expect(ValidateForm(rules)).toBe(true);
+		expect(ValidateForm.validate(rules)).toBe(true);
 
 		form.querySelector("[name=test3]").value = 2
 
 		//condition meet, so test1 is required
-		expect(ValidateForm(rules)).toBe(false);
+		expect(ValidateForm.validate(rules)).toBe(false);
 
 		form.querySelector("[name=test3]").value = 1
 
 		// condition meet, so test1 is required
-		expect(ValidateForm(rules)).toBe(false);
+		expect(ValidateForm.validate(rules)).toBe(false);
 
 	});
 
-	it('Test condition on morethanequal', function() {
-		var form = document.querySelectorAll('form')[0];
+	it('Test condition on morethanequals', function() {
+		var form = document.querySelector('form');
 		var rules = {
 			test1 :{
-			 	condition:{
-			 		field: "test3",
-			 		operator: "morethanequal",
-			 		value: "2",
-					validation: {
+			 	conditions:[{
+			 		morethanequals:{
+				 		field: "test3",
+				 		value: "2"
+				 	},
+					rules: {
 						required : {
 							value: true,
 							message: "this is a test"
 						}
 			 		}
-			 	}
-				
+			 	}]
 			}
 		}
 
 		form.querySelector("[name=test3]").value = 1
 
 		// condition are not meet, so test1 isn't required
-		expect(ValidateForm(rules)).toBe(true);
+		expect(ValidateForm.validate(rules)).toBe(true);
 
 		form.querySelector("[name=test3]").value = 2
 
 		// condition meet, so test1 is required
-		expect(ValidateForm(rules)).toBe(false);
+		expect(ValidateForm.validate(rules)).toBe(false);
 
 		form.querySelector("[name=test3]").value = 5
 
 		// condition meet, so test1 is required
-		expect(ValidateForm(rules)).toBe(false);
+		expect(ValidateForm.validate(rules)).toBe(false);
 
 	});
 })

@@ -1,0 +1,30 @@
+<DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <h1> Sample for jsonFromValidation</h1>
+        <div>
+            <input type="text" name="test1" />
+            <button>validate</button>
+        </div>
+        <script type="text/javascript" src = ../src/utils.js></script>
+        <script type="text/javascript" src = ../src/jsonFormValidation.js></script>
+
+        <script type="text/javascript">
+            const rules = {
+                test1:{
+                    required:{
+                        message: "this field is required"
+                    }
+                }
+            }
+
+            let input = document.querySelectorAll("input");
+            let button = document.querySelector('button')
+
+            button.addEventListener("click", function(){
+                ValidateForm.validate(rules, input)
+            })
+        </script>
+    </body>
+</html>
